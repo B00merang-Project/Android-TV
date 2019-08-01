@@ -52,7 +52,7 @@ style "default"
 
 	GtkPaned		::handle-size        = 3
 
-	GtkNotebook		::tab-overlap			 =-2
+	GtkNotebook		::tab-overlap			 = 0
 
 	GtkProgressBar		::min-vertical-bar-width		= 2
 	GtkProgressBar		::min-horizontal-bar-height = 2
@@ -101,7 +101,7 @@ style "default"
 
 	bg[NORMAL]        = @bg_color
 	bg[PRELIGHT]      = shade (1.02, @bg_color)
-	bg[SELECTED]	  = @selected_bg_color
+	bg[SELECTED]	    = @selected_bg_color
 	bg[INSENSITIVE]   = @bg_color
 	bg[ACTIVE]        = shade (1.04, @bg_color)
 
@@ -115,7 +115,7 @@ style "default"
 	text[PRELIGHT]    = @text_color
 	text[ACTIVE]      = @selected_fg_color
 	text[SELECTED]    = @selected_fg_color
-	text[INSENSITIVE] = darker (@bg_color)
+	text[INSENSITIVE] = darker (@fg_color)
 
 	engine "murrine"
 	{
@@ -278,6 +278,7 @@ style "notebook" = "notebook-bg"
 
 	engine "murrine" {
 		contrast		= 0.001
+		roundness = 0
 		gradient_shades		= {1.0,1.0,1.0,1.0}
 		#focusstyle		= 2
 		#lightborder_shade	= 1.16
@@ -422,7 +423,7 @@ style "progressbar"
 	engine "murrine"
 	{
 		gradient_shades = {1.0,1.0,1.0,1.0}
-		trough_shades	= {0.95,0.95}
+		trough_shades	= {0.75,0.75}
 		# trough_border_shades	= { 0.8, 0.7 }
 		roundness 	= 0
 		contrast	= 0.0
@@ -1161,7 +1162,7 @@ style "text-is-fg-color-workaround"
 	text[PRELIGHT]    = @fg_color
 	text[SELECTED]    = @selected_fg_color
 	text[ACTIVE]      = @fg_color
-	text[INSENSITIVE] = darker (@bg_color)
+	text[INSENSITIVE] = darker (@fg_color)
 }
 widget_class "*.<GtkComboBox>.<GtkCellView>"	style "text-is-fg-color-workaround"
 
@@ -1171,7 +1172,7 @@ style "menuitem-text-is-fg-color-workaround"
 	text[PRELIGHT]      = @selected_fg_color
 	text[SELECTED]      = @selected_fg_color
 	text[ACTIVE]        = @fg_color
-	text[INSENSITIVE]   = darker (@bg_color)
+	text[INSENSITIVE]   = darker (@fg_color)
 }
 widget "*.gtk-combobox-popup-menu.*"	style "menuitem-text-is-fg-color-workaround"
 
@@ -1190,6 +1191,22 @@ widget_class "*<GtkListItem>*"		style "fg-is-text-color-workaround"
 # Only match GtkCList and not the parent widgets, because that would also change the headers.
 widget_class "*<GtkCList>"		style "fg-is-text-color-workaround"
 widget_class "*<EelEditableLabel>"	style "fg-is-text-color-workaround"
+
+# Text Style
+style "text" = "default" {
+  engine "murrine" { textstyle = 0 }
+}
+
+style "menu_text" = "menu_item" {
+  engine "murrine" { textstyle = 0 }
+}
+
+# Fixes ugly text shadows for insensitive text
+widget_class "*<GtkLabel>"                                          style "text"
+widget_class "*<GtkMenu>*<GtkLabel>"                                style "menu_text" 
+widget_class "*<GtkComboBox>*<GtkCellLayout>"                       style "text"
+widget_class "*<GtkNotebook>*<GtkLabel>"                            style "text"
+widget_class "*<GtkNotebook>*<GtkCellLayout>"                       style "text"
 
 # panel theming
 include "panel.rc"
