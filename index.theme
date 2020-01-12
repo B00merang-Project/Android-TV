@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Android TV
+Comment=GTK theme based on Holographic theme in Android TV
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Android TV
+MetacityTheme=Chrome OS
+IconTheme=Papirus
+CursorTheme=DMZ-White
+ButtonLayout=:minimize,maximize,close
